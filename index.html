@@ -146,7 +146,6 @@
   <h1>🔐 Xác thực</h1>
   <p class="sub">Nhập email để nhận mã OTP</p>
 
-  <!-- Step 1: Nhập email -->
   <div id="step-email">
     <div class="input-group">
       <label>📧 Email</label>
@@ -155,7 +154,6 @@
     <button class="btn" id="send-otp-btn">Gửi mã OTP</button>
   </div>
 
-  <!-- Step 2: Nhập OTP -->
   <div id="step-otp" class="hidden">
     <div class="input-group">
       <label>📩 Nhập mã OTP</label>
@@ -167,13 +165,12 @@
     <button class="btn btn-secondary" id="resend-otp-btn">🔄 Gửi lại mã</button>
   </div>
 
-  <!-- Message -->
   <div id="message" class="message"></div>
   <div id="status" class="status"></div>
 </div>
 
 <script>
-const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
+const API_URL = 'https://mail-cyan.vercel.app/api';
   
   const emailInput = document.getElementById('email-input');
   const otpInput = document.getElementById('otp-input');
@@ -206,12 +203,10 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
     btn.textContent = loading ? '⏳ Đang xử lý...' : btn.dataset.original || btn.textContent;
   }
 
-  // Lưu text gốc
   sendBtn.dataset.original = 'Gửi mã OTP';
   verifyBtn.dataset.original = 'Xác nhận';
   resendBtn.dataset.original = '🔄 Gửi lại mã';
 
-  // Gửi OTP
   async function sendOTP(email) {
     if (!email || !email.includes('@')) {
       showMessage('Vui lòng nhập email hợp lệ.', 'error');
@@ -241,7 +236,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
       setStatus('📩 Mã đã được gửi đến email của bạn.');
       currentEmail = email;
 
-      // Chuyển sang bước nhập OTP
       stepEmail.classList.add('hidden');
       stepOtp.classList.remove('hidden');
       otpInput.value = '';
@@ -257,7 +251,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
     }
   }
 
-  // Xác thực OTP
   async function verifyOTP(email, otp) {
     if (!otp || otp.length !== 6 || !/^\d+$/.test(otp)) {
       showMessage('Vui lòng nhập đúng 6 chữ số.', 'error');
@@ -286,7 +279,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
       showMessage('🎉 ' + data.message + ' Chào mừng bạn!', 'success');
       setStatus('✅ Đã xác thực thành công!');
 
-      // Reset giao diện sau 3s
       setTimeout(() => {
         resetForm();
         showMessage('Bạn có thể thử lại với email khác.', 'info');
@@ -312,7 +304,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
     setStatus('');
   }
 
-  // --- Event listeners ---
   sendBtn.addEventListener('click', () => {
     sendOTP(emailInput.value.trim());
   });
@@ -328,7 +319,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
     }
   });
 
-  // Enter key
   emailInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') sendBtn.click();
   });
@@ -337,7 +327,6 @@ const API_URL = 'https://mail-cyan.vercel.app/api';  // ✅ ĐÚNG
     if (e.key === 'Enter') verifyBtn.click();
   });
 
-  // Tự động focus OTP khi nhập
   otpInput.addEventListener('input', function() {
     this.value = this.value.replace(/\D/g, '').slice(0, 6);
   });
